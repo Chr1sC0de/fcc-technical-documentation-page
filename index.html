@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav id="navbar">
+            <header>
+               <h1>SQL DML Documentation</h1> 
+            </header> 
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#insert-statement">Insert Statement</a></li>
+                <li><a href="#update-statement">Update Statement</a></li>
+                <li><a href="#delete-statement">Delete Statement</a></li>
+                <li><a href="#truncate-statement">Truncate Statement</a></li>
+                <li><a href="#select-statement">Select Statement</a></li>
+                <li><a class="contents-sub" href="#common-clauses">Common Clauses</a> </li>
+                <li><a class="contents-sub-sub" href="#where-clause">Where Clause</a></li>
+                <li><a class="contents-sub-sub" href="#orderby-clause">Order By Clause</a></li>
+                <li><a class="contents-sub-sub" href="#limit-offset-clauses">
+                    Limit and Offset Clauses</a></li>
+                <li><a class="contents-sub-sub" href="#groupby-clause">Group By Clause</a></li>
+                <li><a class="contents-sub-sub" href="#having-clause">Having Clause</a></li>
+                <li><a class="contents-sub-sub" href="#join-clause">Join Clause</a></li>
+            </ul>
+        </nav>
+        <main id="main-doc">
+            <section class="main-section" id="introduction">
+                <h1>SQL DML Documentation</h1>
+                <p>
+                    The Structured Query Language (SQL) is the language used to issue
+                    commands to our database. It allows us to:
+                </p>
+                <ul>
+                    <li>Describe the schema of our stored data</li>
+                    <li>Provide hints to the database engine about how data is
+                    accessed</li>
+                    <li>
+                        Provides CRUD operations on our database:
+                        <ul>
+                            <li>Create</li>
+                            <li>Read</li>
+                            <li>Update</li>
+                            <li>Delete</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>
+                    There are multiple types of commands we can issue using SQL:
+                </p>
+                <ul>
+                    <li>
+                        <b>Data Definition Language (DDL):</b>
+                            Specify the structure of the data
+                    </li>
+                    <li>
+                        <b>Data Manipulation Language (DML):</b>
+                            Manipulate/access data
+                    </li>
+                    <li>
+                        <b>Data Control Language (DCL)</b>
+                            Access control
+                    </li>
+                    <li>
+                        <b>Transaction Control Language (TCL)</b>
+                            Commands for beginning and ending a transaction
+                    </li>
+                </ul>
+                <figure id="image-sql-commands">
+                    <figcaption> Examples of the different types of commands in SQL. </figcaption>
+                    <img src="./images/sql-commands-and-datatypes.svg"></img>
+                </figure>
+                <p>This document will be focus on summarizing the most common <b>DML statements</b> </p>
+            </section>
+            <section class="main-section" id="insert-statement">
+                <h1>Insert Statement</h1>
+                <p>
+                    The <code class="code-inline">INSERT INTO</code> statement
+                    allows us to add records into a table:
+                </p>
+                <code class="code-block">-- Insert row into table
+                INSERT INTO
+                tableName
+                &emsp;VALUES
+                (v1, v2, ...);
+                -- Place values into specific columns
+                INSERT INTO
+                &emsp;tableName(colName1, colName2,...)
+                VALUES
+                &emsp;(v1, v2, ...);
+                -- Insert values from another table into selected table
+                INSERT INTO
+                &emsp;tableName1(colName1, colName2,...)
+                VALUES
+                &emsp;SELECT
+                &emsp;&emsp;(c1, c2,...)
+                &emsp;FROM
+                &emsp;&emsp;tableName2; </code>
+            </section>
+
+            <section class="main-section" id="update-statement">
+                <h1>Update Statement</h1>
+                <p>
+                    The <code class="code-inline">UPDATE</code> statements allows
+                    us to modify the values within specific column:
+                </p>
+                <code class="code-block">-- set the values of a single column
+                UPDATE
+                &emsp;tableName
+                SET
+                &emsp;colName1 = someValues;
+                -- set the values of a single column given that the row matches a condition
+                UPDATE
+                &emsp;tableName
+                SET
+                &emsp;colName = someValues
+                WHERE
+                &emsp;conditon;
+                -- update the values of multiple columns given all rows match some condition
+                UPDATE
+                &emsp;tableName
+                SET
+                &emsp;colName1 = someValues, colName2 = someValues
+                WHERE
+                &emsp;conditon;
+                </code>
+            </section>
+
+            <section class="main-section" id="delete-statement">
+                <h1>Delete Statement</h1>
+                <p>
+                    The <code class="code-inline">DELETE FROM</code> statement
+                    allows us to remove rows from tables:
+                </p>
+                <code class="code-block">-- will delete all records from a table
+                    DELETE FROM
+                    &emsp;tableName;
+                    -- will delete rows which match the condition
+                    DELETE FROM
+                    &emsp;tableName;
+                    WHERE
+                    &emsp;conditon;
+                </code>
+            </section>
+
+            <section class="main-section" id="truncate-statement">
+                <h1>Truncate Statement</h1>
+                <p>
+                    The <code class="code-inline">TRUNCATE TABLE</code>
+                    statement simply removes all the rows from a
+                    table/partition. It bears the following advantages over the
+                    <code class="code-inline">DELETE</code> statement.
+                    <ul>
+                        <li>
+                            Faster
+                        </li>
+                        <li>
+                            Uses fewer system and transaction log resources
+                        </li>
+                    </ul>
+                    However it does not log individual row deletions.
+                </p>
+            </section>
+
+            <section class="main-section" id="select-statement">
+                <h1>Select Statement</h1>
+                <p>
+                    The <code class="code-inline">SELECT</code> statement allows
+                    us to retrieve/fetch data from a database:
+                </p>
+                <code class="code-block"> -- retrieve all columns from table
+                SELECT * FROM
+                &emsp;tableName;
+                -- retrieve specific columns from table
+                SELECT
+                &emsp;colName1, colName2
+                FROM
+                &emsp;tableName;
+                -- retrieve specific columns from table given some condition
+                SELECT
+                &emsp;colName1, colName2
+                FROM
+                &emsp;tableName
+                WHERE
+                &emsp;condition;
+                </code>
+                <section class="sub-section" id="common-clauses">
+                    <h2>Common Clauses</h2>
+                    <p>
+                        The <code class="code-inline">SELECT</code> statement
+                        can have many clauses which add conditions to the
+                        retrieval statement, e.g:
+                    </p>
+                    <ul>
+                        <li>
+                            <code>SELECT DISTINCT columnName FROM tableName</code>
+                        </li>
+                        <li>
+                            <code>SELECT columnName FROM tableName WHERE
+                            condition</code>
+                        </li>
+                    </ul>
+                    <section class="sub-sub-section" id="where-clause">
+                        <h3>Where Clause</h3>
+                        <p>
+                            The <code class="code-inline">WHERE</code> clause is
+                            used to apply a filter condition to the rows of the
+                            statement:
+                        </p>
+                        <code class="code-block"> SELECT colName1, colName2,... FROM tableName WHERE condition </code>
+                    </section>
+                    <section class="sub-sub-section" id="orderby-clause">
+                        <h3>Order By Clause</h3>
+                        <p>
+                            Sorting selected data is performed via the <code
+                            class="code-inline">ORDER BY</code> clause.
+                        </p>
+                        <ul>
+                            <li>
+                                Rows are sorted in ascending order of sort order is
+                                not specified
+                            </li>
+                            <li>
+                                The <code class="code-inline">ORDER BY</code> clause
+                                must be the last clause and can only be used within
+                                <code class="code-inline">SELECT</code> statements
+                            </li>
+                            <li>
+                                If multiple rows have the same values for ORDER BY
+                                then they can appear in any order
+                            </li>
+                            <li>
+                                Multiple values can be used within the clause and
+                                are ordered by descending order
+                            </li>
+                        </ul>
+                        <code class="code-block"> SELECT colName1, colName2, ... FROM tableName ORDER BY colName
+                            SELECT colName1, colName2, ... FROM tableName ORDER BY colName1, colName2
+                            SELECT colName1, colName2, ... FROM tableName ORDER BY colName DESC
+                            SELECT colName1, colName2, ... FROM tableName ORDER BY colName ASC
+                            SELECT colName1, colName2, ... FROM tableName ORDER BY colName1 ASC, colName2 DESC
+                            SELECT colName1, colName2, ... FROM tableName ORDER BY 2,
+                        </code>
+                    </section>
+                    <section class="sub-sub-section" id="limit-offset-clauses">
+                        <h1>Limit and Offset Clauses</h1>
+                        <p>
+                            The <code class="code-inline">LIMIT</code> clause limits
+                            the query to the first <i>n</i> number of rows:
+                        </p>
+                        <code class="code-block"> SELECT colName1, colName2,... FROM tableName WHERE condition LIMIT n;</code>
+                        <p>
+                            The <code class="code-inline">OFFSET</code> clause will
+                            skip the first <i>m</i> number of rows. It can be used
+                            by itself or combined with the <code
+                            class="code-inline">LIMIT</code>
+                            clause to get the first <i>n</i> number of rows after
+                            an offset of <i>m</i>:
+                        </p>
+                        <code class="code-block">
+                            SELECT colName1, colName2,... FROM tableName WHERE condition OFFSET m LIMIT n;
+                        </code>
+                    </section>
+                    <section class="sub-sub-section" id="groupby-clause">
+                        <h1>Group By Clause</h1>
+                        <p>
+                            The <code class="code-inline">GROUP BY</code> clause
+                            groups data from a selection using specified columns
+                            before applying an aggregate function.
+                        </p>
+                        <figure id="image-group-by-example">
+                            <figcaption> Example of the aggregation performed by the GROUP BY clause. </figcaption>
+                            <img src="./images/group-by.svg" alt="group-by-image">
+                        </figure>
+                    </section>
+                    <section class="sub-sub-section" id="having-clause">
+                        <h1>Having Clause</h1>
+                        <p>
+                            The <code class="code-inline">HAVING</code> clause can
+                            be called after the <code class="code-inline">GROUP
+                            BY</code> clause to apply a condition post aggregation
+                            similar to the <code class="code-inline">WHERE</code>
+                            clause.
+                        </p>
+                        <code class="code-block">SELECT
+                        &emsp;colName1,..,colNameN aggrFunc(colName2)
+                        FROM
+                        &emsp;tableName
+                        WHERE
+                        &emsp;condition
+                        GROUP BY
+                        &emsp;colName1,..,colNameN
+                        HAVING
+                        &emsp;aggregateCondition
+                        </code>
+                    </section>
+                    <section class="sub-sub-section" id="join-clause">
+                        <h3>Join Clause</h3>
+                        <p>
+                            The <code class="code-inline">JOIN</code> clause
+                            allows us to join two tables. The most common types
+                            of joins are shown bellow:
+                        </p>
+                        <figure id="image-types-of-joins">
+                            <figcaption> The most common types of joins. </figcaption>
+                            <img src="./images/types-of-joins.svg"></img>
+                        </figure>
+                        <p>
+                            Joins can also be combined with other clauses to
+                            obtain the desired effect e.g:
+                        </p>
+                        <h4>Combined with the <code
+                        class="code-inline">WHERE</code> clause</h4>
+                        <code class="code-block">SELECT
+                        &emsp;columns
+                        FROM
+                        &emsp;table1 t1
+                        JOIN CLAUSE
+                        &emsp;table2 t2 ON t1.col = t2.col
+                        WHERE
+                        &emsp;condition</code>
+                        <h4>Combined with the <code
+                        class="code-inline">AND</code> clause</h4>
+                        <code class="code-block">SELECT
+                        &emsp;columns
+                        FROM
+                        &emsp;table1 t1
+                        JOIN CLAUSE
+                        &emsp;table2 t2 ON t1.col = t2.col
+                        AND
+                        &emsp;condition</code>
+                    </section>
+                    <p>
+                        <b>NOTE:</b> the <code class="code-inline">WHERE</code>
+                        condition ignore  <i>NULL</i> entries while the <code
+                        class="code-inline">AND</code> condition does not.
+                    </p>
+                </section>
+            </section>
+
+        </main>
+    </body>
+</html>
